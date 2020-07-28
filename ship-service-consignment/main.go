@@ -6,7 +6,7 @@ import (
 	"net"
 	"sync"
 
-	pb "kr.com/ship-consignment-service/proto/consignment/consignment.pb.go"
+	pb "github.com/kramanathan01/ship/ship-consignment-service/proto/consignment/consignment.pb.go"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
