@@ -3,13 +3,10 @@ package main
 import (
 	"context"
 	"log"
-	"net"
 	"sync"
 
 	pb "github.com/kramanathan01/ship/ship-service-consignment/proto/consignment"
-
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+	"github.com/micro/go-micro/v2"
 )
 
 const (
@@ -37,6 +34,7 @@ func (repo *Repository) Create(consignment *pb.Consignment) (*pb.Consignment, er
 	return consignment, nil
 }
 
+// GetAll - Returns all existing Consignments
 func (repo *Repository) GetAll() []*pb.Consignment {
 	return repo.consignments
 }
@@ -68,19 +66,21 @@ func main() {
 
 	repo := &Repository{}
 
-	// Set up gRPC server
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen %v", err)
-	}
-	s := grpc.NewServer()
+	// Create a new service
+	service := micro.NewService(
+		micro.Name("ship.service.consignment"),
+	)
+
+	// Init parses command line flags to pass in options
+	service.Init()
 
 	// Register our service as handler for protobuf interface
-	pb.RegisterShippingServiceServer(s, &service{repo})
-	reflection.Register(s)
+	if err := pb.RegisterShippingServiceHandler(service.Server(), &consignmentService{repo}); err != nil {
+		log.Panic(err)
+	}
 
-	log.Println("Running on port:", port)
-	if err := s.Serve(lis); err != nil {
+	// log.Println("Running on port:", port)
+	if err := service.Run(); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
