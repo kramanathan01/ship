@@ -35,10 +35,10 @@ func main() {
 	// defer conn.Close()
 	// client := pb.NewShippingServiceClient(conn)
 
-	service := micro.NewService(micro.Name("ship.consignment.cli"))
+	service := micro.NewService(micro.Name("ship.cli.consignment"))
 	service.Init()
 
-	client := pb.NewShippingService("ship.consignment.service", service.Client())
+	client := pb.NewShippingService("ship.service.consignment", service.Client())
 
 	file := defaultFilename
 	if len(os.Args) > 1 {
