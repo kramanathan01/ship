@@ -113,8 +113,6 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/google/go-cmp v0.5.0
-## explicit
 # github.com/google/uuid v1.1.1
 github.com/google/uuid
 # github.com/hashicorp/hcl v1.0.0
@@ -140,6 +138,9 @@ github.com/imdario/mergo
 github.com/jbenet/go-context/io
 # github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd
 github.com/kevinburke/ssh_config
+# github.com/kramanathan01/ship/ship-service-vessel v0.0.0-00010101000000-000000000000 => ../ship-service-vessel
+## explicit
+github.com/kramanathan01/ship/ship-service-vessel/proto/vessel
 # github.com/micro/cli/v2 v2.1.2
 github.com/micro/cli/v2
 # github.com/micro/go-micro/v2 v2.9.1
@@ -351,10 +352,10 @@ golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 # golang.org/x/tools v0.0.0-20200729041821-df70183b1872
 ## explicit
-# google.golang.org/genproto v0.0.0-20191216164720-4f79533eabd1
+# google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.26.0
+# google.golang.org/grpc v1.27.0
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
@@ -393,14 +394,13 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.23.0
+# google.golang.org/protobuf v1.25.0
 ## explicit
 google.golang.org/protobuf/encoding/protojson
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
 google.golang.org/protobuf/internal/descfmt
 google.golang.org/protobuf/internal/descopts
-google.golang.org/protobuf/internal/detectknown
 google.golang.org/protobuf/internal/detrand
 google.golang.org/protobuf/internal/encoding/defval
 google.golang.org/protobuf/internal/encoding/json
@@ -408,12 +408,11 @@ google.golang.org/protobuf/internal/encoding/messageset
 google.golang.org/protobuf/internal/encoding/tag
 google.golang.org/protobuf/internal/encoding/text
 google.golang.org/protobuf/internal/errors
-google.golang.org/protobuf/internal/fieldnum
 google.golang.org/protobuf/internal/fieldsort
 google.golang.org/protobuf/internal/filedesc
 google.golang.org/protobuf/internal/filetype
 google.golang.org/protobuf/internal/flags
-google.golang.org/protobuf/internal/genname
+google.golang.org/protobuf/internal/genid
 google.golang.org/protobuf/internal/impl
 google.golang.org/protobuf/internal/mapsort
 google.golang.org/protobuf/internal/pragma
@@ -440,3 +439,4 @@ gopkg.in/yaml.v2
 # honnef.co/go/tools v0.0.1-2020.1.4
 ## explicit
 # github.com/kramanathan01/ship/ship-service-consignment => ../ship-service-consignment
+# github.com/kramanathan01/ship/ship-service-vessel => ../ship-service-vessel

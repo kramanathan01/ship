@@ -9,7 +9,7 @@ import (
 	"github.com/micro/go-micro/v2"
 )
 
-// Repository - Interface fpr the repp
+// Repository - Interface for the repp
 type Repository interface {
 	FindAvailable(*pb.Specification) (*pb.Vessel, error)
 }

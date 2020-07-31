@@ -9,8 +9,8 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.4.2
-	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/imdario/mergo v0.3.10 // indirect
+	github.com/kramanathan01/ship/ship-service-vessel v0.0.0-00010101000000-000000000000
 	github.com/micro/go-micro/v2 v2.9.1
 	github.com/miekg/dns v1.1.30 // indirect
 	github.com/nats-io/jwt v1.0.1 // indirect
@@ -23,8 +23,10 @@ require (
 	golang.org/x/sys v0.0.0-20200728102440-3e129f6d46b1 // indirect
 	golang.org/x/text v0.3.3 // indirect
 	golang.org/x/tools v0.0.0-20200729041821-df70183b1872 // indirect
-	google.golang.org/protobuf v1.23.0
+	google.golang.org/protobuf v1.25.0
 	honnef.co/go/tools v0.0.1-2020.1.4 // indirect
 )
 
-replace github.com/kramanathan01/ship/ship-service-consignment => ../ship-service-consignment
+// replace github.com/kramanathan01/ship/ship-service-consignment => ../ship-service-consignment
+
+// replace github.com/kramanathan01/ship/ship-service-vessel => ../ship-service-vessel

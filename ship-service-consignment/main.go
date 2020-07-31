@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	pb "github.com/kramanathan01/ship/ship-service-consignment/proto/consignment"
+	vp "github.com/kramanathan01/ship/ship-service-vessel/proto/vessel"
 	"github.com/micro/go-micro/v2"
 )
 
@@ -41,13 +42,23 @@ func (repo *Repository) GetAll() []*pb.Consignment {
 
 // Service implements the gRPC interface
 type consignmentService struct {
-	repo repository
+	repo         repository
+	vesselClient vp.VesselService
 }
 
 // CreateConsignment - Create method that takes in a protobuf Consignment and
 // returns protobuf Response message
 
 func (s *consignmentService) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
+
+	vesselResponse, err := s.vesselClient.FindAvailable(context.Background() & vp.Specification{
+		MaxWeight: req.Weight,
+		Capacity:  len(req.Containers),
+	})
+	if err != nil {
+		return err
+	}
+	req.VesselId = vesselResponse.Vessel.Id
 
 	consignment, err := s.repo.Create(req)
 	if err != nil {
@@ -73,11 +84,13 @@ func main() {
 		micro.Name("ship.service.consignment"),
 	)
 
+	vesselClient := vp.NewVesselService("ship.service.client", vp.Client())
+
 	// Init parses command line flags to pass in options
 	service.Init()
 
 	// Register our service as handler for protobuf interface
-	if err := pb.RegisterShippingServiceHandler(service.Server(), &consignmentService{repo}); err != nil {
+	if err := pb.RegisterShippingServiceHandler(service.Server(), &consignmentService{repo, vesselClient}); err != nil {
 		log.Panic(err)
 	}
 
