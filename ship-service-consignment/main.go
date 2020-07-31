@@ -51,9 +51,9 @@ type consignmentService struct {
 
 func (s *consignmentService) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 
-	vesselResponse, err := s.vesselClient.FindAvailable(context.Background() & vp.Specification{
+	vesselResponse, err := s.vesselClient.FindAvailable(context.Background(), &vp.Specification{
 		MaxWeight: req.Weight,
-		Capacity:  len(req.Containers),
+		Capacity:  int32(len(req.Containers)),
 	})
 	if err != nil {
 		return err
@@ -84,7 +84,7 @@ func main() {
 		micro.Name("ship.service.consignment"),
 	)
 
-	vesselClient := vp.NewVesselService("ship.service.client", vp.Client())
+	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
 
 	// Init parses command line flags to pass in options
 	service.Init()

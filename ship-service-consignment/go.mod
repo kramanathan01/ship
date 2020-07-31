@@ -10,7 +10,7 @@ require (
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/imdario/mergo v0.3.10 // indirect
-	github.com/kramanathan01/ship/ship-service-vessel v0.0.0-00010101000000-000000000000
+	github.com/kramanathan01/ship/ship-service-vessel v0.0.0-20200731002736-1e5747c90e48
 	github.com/micro/go-micro/v2 v2.9.1
 	github.com/miekg/dns v1.1.30 // indirect
 	github.com/nats-io/jwt v1.0.1 // indirect
