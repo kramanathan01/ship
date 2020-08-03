@@ -96,14 +96,13 @@ func main() {
 		log.Panic(err)
 	}
 	defer client.Disconnect(context.Background())
-
 	consignmentCollection := client.Database("ship").Collection("consignments")
-
 	repository := &MongoRepository{consignmentCollection}
+
 	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
-	h := &handler{repository, vesselClient}
 
 	// Register our service as handler for protobuf interface
+	h := &handler{repository, vesselClient}
 	if err := pb.RegisterShippingServiceHandler(service.Server(), h); err != nil {
 		log.Panic(err)
 	}
