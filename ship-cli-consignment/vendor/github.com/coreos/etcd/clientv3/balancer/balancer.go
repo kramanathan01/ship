@@ -112,7 +112,7 @@ type Balancer interface {
 	// connection with "grpc.Dial(addr, grpc.WithBalancerName)", and then those resolved
 	// addresses are passed to "grpc/balancer.Balancer.HandleResolvedAddrs".
 	// For each resolved address, balancer calls "balancer.ClientConn.NewSubConn".
-	// "grpc/balancer.Balancer.UpdateSubConnState" is called when connectivity state
+	// "grpc/balancer.Balancer.HandleSubConnStateChange" is called when connectivity state
 	// changes, thus requires failover logic in this method.
 	balancer.Balancer
 
@@ -138,10 +138,13 @@ type baseBalancer struct {
 	picker picker.Picker
 }
 
-// UpdateClientConnState implements "grpc/balancer.Balancer" interface.
+// HandleResolvedAddrs implements "grpc/balancer.Balancer" interface.
 // gRPC sends initial or updated resolved addresses from "Build".
-func (bb *baseBalancer) UpdateClientConnState(ccs balancer.ClientConnState) error {
-	addrs := ccs.ResolverState.Addresses
+func (bb *baseBalancer) HandleResolvedAddrs(addrs []resolver.Address, err error) {
+	if err != nil {
+		bb.lg.Warn("HandleResolvedAddrs called with error", zap.String("balancer-id", bb.id), zap.Error(err))
+		return
+	}
 	bb.lg.Info("resolved",
 		zap.String("picker", bb.picker.String()),
 		zap.String("balancer-id", bb.id),
@@ -183,21 +186,17 @@ func (bb *baseBalancer) UpdateClientConnState(ccs balancer.ClientConnState) erro
 			)
 
 			// Keep the state of this sc in bb.scToSt until sc's state becomes Shutdown.
-			// The entry will be deleted in UpdateSubConnState.
+			// The entry will be deleted in HandleSubConnStateChange.
 			// (DO NOT) delete(bb.scToAddr, sc)
 			// (DO NOT) delete(bb.scToSt, sc)
 		}
 	}
-
-	return nil
 }
 
-// UpdateSubConnState implements "grpc/balancer.Balancer" interface.
-func (bb *baseBalancer) UpdateSubConnState(sc balancer.SubConn, scs balancer.SubConnState) {
+// HandleSubConnStateChange implements "grpc/balancer.Balancer" interface.
+func (bb *baseBalancer) HandleSubConnStateChange(sc balancer.SubConn, s grpcconnectivity.State) {
 	bb.mu.Lock()
 	defer bb.mu.Unlock()
-
-	s := scs.ConnectivityState
 
 	old, ok := bb.scToSt[sc]
 	if !ok {
@@ -248,10 +247,7 @@ func (bb *baseBalancer) UpdateSubConnState(sc balancer.SubConn, scs balancer.Sub
 		bb.updatePicker()
 	}
 
-	bb.currentConn.UpdateState(balancer.State{
-		ConnectivityState: bb.connectivityRecorder.GetCurrentState(),
-		Picker: bb.picker,
-	})
+	bb.currentConn.UpdateBalancerState(bb.connectivityRecorder.GetCurrentState(), bb.picker)
 }
 
 func (bb *baseBalancer) updatePicker() {
@@ -294,13 +290,4 @@ func (bb *baseBalancer) updatePicker() {
 // and it doesn't need to call RemoveSubConn for the SubConns.
 func (bb *baseBalancer) Close() {
 	// TODO
-}
-
-// ResolverError implements "grpc/balancer.Balancer" interface.
-func (bb *baseBalancer) ResolverError(err error) {
-	bb.lg.Error(
-		"got balancer resolver error",
-		zap.String("picker", bb.picker.String()),
-		zap.String("balancer-id", bb.id),
-	)
 }

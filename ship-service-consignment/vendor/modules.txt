@@ -168,7 +168,7 @@ github.com/klauspost/compress/huff0
 github.com/klauspost/compress/snappy
 github.com/klauspost/compress/zstd
 github.com/klauspost/compress/zstd/internal/xxhash
-# github.com/kramanathan01/ship/ship-service-vessel v0.0.0-20200731002736-1e5747c90e48
+# github.com/kramanathan01/ship/ship-service-vessel v0.0.0-20200803214316-c1067011c478
 ## explicit
 github.com/kramanathan01/ship/ship-service-vessel/proto/vessel
 # github.com/micro/cli/v2 v2.1.2

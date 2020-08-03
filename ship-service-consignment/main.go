@@ -100,11 +100,12 @@ func main() {
 	repository := &MongoRepository{consignmentCollection}
 
 	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
-	vessels := &vp.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500}
-	_, err = vesselClient.Create(context.Context.Background(), vessels)
-	if err != nil {
-		log.Printf("Vessel not created: %v", err)
-	}
+	// vessels := &vp.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500}
+	// vv, err := vesselClient.Create(context.Background(), vessels)
+	// if err != nil {
+	// 	log.Printf("Vessel not created: %v", err)
+	// }
+	// log.Printf("Vessel, %v", vv.Created)
 	// Register our service as handler for protobuf interface
 	h := &handler{repository, vesselClient}
 	if err := pb.RegisterShippingServiceHandler(service.Server(), h); err != nil {

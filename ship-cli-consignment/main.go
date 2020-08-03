@@ -8,6 +8,7 @@ import (
 	"os"
 
 	pb "github.com/kramanathan01/ship/ship-service-consignment/proto/consignment"
+	vp "github.com/kramanathan01/ship/ship-service-vessel/proto/vessel"
 	micro "github.com/micro/go-micro/v2"
 )
 
@@ -39,6 +40,13 @@ func main() {
 	service.Init()
 
 	client := pb.NewShippingService("ship.service.consignment", service.Client())
+	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
+	vessels := &vp.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500}
+	vv, err := vesselClient.Create(context.Background(), vessels)
+	if err != nil {
+		log.Printf("Vessel not created: %v", err)
+	}
+	log.Printf("Vessel, %v", vv.Created)
 
 	file := defaultFilename
 	if len(os.Args) > 1 {

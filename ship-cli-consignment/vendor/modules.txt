@@ -133,6 +133,9 @@ github.com/kevinburke/ssh_config
 # github.com/kramanathan01/ship/ship-service-consignment v0.0.0-20200729213241-272853a4373b
 ## explicit
 github.com/kramanathan01/ship/ship-service-consignment/proto/consignment
+# github.com/kramanathan01/ship/ship-service-vessel v0.0.0-20200803220720-29f75c1df345
+## explicit
+github.com/kramanathan01/ship/ship-service-vessel/proto/vessel
 # github.com/micro/cli/v2 v2.1.2
 github.com/micro/cli/v2
 # github.com/micro/go-micro/v2 v2.9.1
