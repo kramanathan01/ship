@@ -101,7 +101,7 @@ func main() {
 
 	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
 	vessels := &vp.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500}
-	_, err := vesselClient.Create(vessels)
+	_, err = vesselClient.Create(context.Context.Background(), vessels)
 	if err != nil {
 		log.Printf("Vessel not created: %v", err)
 	}
