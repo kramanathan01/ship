@@ -41,10 +41,10 @@ const (
 // }
 
 // Service implements the gRPC interface
-type consignmentService struct {
-	repo         repository
-	vesselClient vp.VesselService
-}
+// type consignmentService struct {
+// 	repo         repository
+// 	vesselClient vp.VesselService
+// }
 
 // CreateConsignment - Create method that takes in a protobuf Consignment and
 // returns protobuf Response message
@@ -100,7 +100,11 @@ func main() {
 	repository := &MongoRepository{consignmentCollection}
 
 	vesselClient := vp.NewVesselService("ship.service.vessel", service.Client())
-
+	vessels := &vp.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500}
+	_, err := vesselClient.Create(vessels)
+	if err != nil {
+		log.Printf("Vessel not created: %v", err)
+	}
 	// Register our service as handler for protobuf interface
 	h := &handler{repository, vesselClient}
 	if err := pb.RegisterShippingServiceHandler(service.Server(), h); err != nil {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
+	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,34 +10,35 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// MongoRepository implementation
+// MongoRepository -
 type MongoRepository struct {
 	collection *mongo.Collection
 }
 
 // Create -
-func (repository *MongoRepository) Create(ctx context.Context, consignment *Consignment) error {
-	_, err := repository.collection.InsertOne(ctx, consignment)
+func (repository *MongoRepository) Create(ctx context.Context, vessel *Vessel) error {
+	_, err := repository.collection.InsertOne(ctx, vessel)
 	return err
 }
 
-// GetAll -
-func (repository *MongoRepository) GetAll(ctx context.Context) ([]*Consignment, error) {
+// FindVessel -
+func (repository *MongoRepository) FindVessel(ctx context.Context, spec *Specification) (*Vessel, error) {
 	cur, err := repository.collection.Find(ctx, bson.D{}, nil)
 	if err != nil {
-		log.Panicf("Error in finding - Context: %v, Error: %v", ctx, err)
+		return nil, err
 	}
 	defer cur.Close(ctx)
-
-	var consignments []*Consignment
 	for cur.Next(ctx) {
-		var consignment *Consignment
-		if err := cur.Decode(&consignment); err != nil {
+		var vessel *Vessel
+		if err = cur.Decode(&vessel); err != nil {
 			return nil, err
 		}
-		consignments = append(consignments, consignment)
+
+		if spec.Capacity <= vessel.Capacity && spec.MaxWeight <= vessel.MaxWeight {
+			return vessel, nil
+		}
 	}
-	return consignments, err
+	return nil, errors.New("No vessel found by that spec")
 }
 
 // CreateClient -

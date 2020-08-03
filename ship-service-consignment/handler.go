@@ -55,6 +55,5 @@ func (s *handler) GetConsignments(ctx context.Context, req *pb.GetRequest, res *
 		return err
 	}
 	res.Consignments = UnmarshalConsignmentCollection(consignments)
-	log.Println("HANDLER: Normal Return")
 	return nil
 }
