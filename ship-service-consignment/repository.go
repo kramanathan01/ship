@@ -27,24 +27,3 @@ type repository interface {
 	Create(context.Context, *Consignment) error
 	GetAll(context.Context) ([]*Consignment, error)
 }
-
-// // Repository - Dummy Repo for now
-// type Repository struct {
-// 	mu           sync.RWMutex
-// 	consignments []*pb.Consignment
-// }
-
-// Create a new Consignment
-// func (repo *Repository) Create(consignment *pb.Consignment) (*pb.Consignment, error) {
-// 	repo.mu.Lock()
-// 	u := append(repo.consignments, consignment)
-// 	repo.consignments = u
-// 	repo.mu.Unlock()
-
-// 	return consignment, nil
-// }
-
-// // GetAll - Returns all existing Consignments
-// func (repo *Repository) GetAll() []*pb.Consignment {
-// 	return repo.consignments
-// }

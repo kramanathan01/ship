@@ -15,19 +15,20 @@ type MongoRepository struct {
 	collection *mongo.Collection
 }
 
-// Create -
+// Create - Adds a new Consignment with one or more Containers
 func (repository *MongoRepository) Create(ctx context.Context, consignment *Consignment) error {
 	_, err := repository.collection.InsertOne(ctx, consignment)
 	return err
 }
 
-// GetAll -
+// GetAll - Returns all Consignments
 func (repository *MongoRepository) GetAll(ctx context.Context) ([]*Consignment, error) {
 	cur, err := repository.collection.Find(ctx, bson.D{}, nil)
-	if err != nil {
-		log.Panicf("Error in finding - Context: %v, Error: %v", ctx, err)
-	}
 	defer cur.Close(ctx)
+	if err != nil {
+		log.Printf("Error in finding - Context: %v, Error: %v", ctx, err)
+		return nil, err
+	}
 
 	var consignments []*Consignment
 	for cur.Next(ctx) {

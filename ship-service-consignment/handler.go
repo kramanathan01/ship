@@ -14,8 +14,7 @@ type handler struct {
 	vesselClient vp.VesselService
 }
 
-// CreateConsignment - we created just one method on our service,
-// which is a create method, which takes a context and a request as an
+// CreateConsignment - Takes a context and a request as an
 // argument, these are handled by the gRPC server.
 func (s *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 
