@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/kramanathan01/ship/ship-service-user v0.0.0-20200805032556-fd8170d11b07
+	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro/v2 v2.9.1
 )
 

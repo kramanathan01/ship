@@ -6,6 +6,7 @@ import (
 	"log"
 
 	ub "github.com/kramanathan01/ship/ship-service-user/proto/user"
+	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v2"
 )
 
