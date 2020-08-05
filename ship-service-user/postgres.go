@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -61,6 +63,7 @@ func NewConnection() (*sqlx.DB, error) {
 	dbName := os.Getenv("DB_NAME")
 	password := os.Getenv("DB_PASSWORD")
 	conn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", host, user, dbName, password)
+	log.Println(conn)
 	db, err := sqlx.Connect("postgres", conn)
 	if err != nil {
 		return nil, err

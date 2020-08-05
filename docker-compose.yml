@@ -30,6 +30,10 @@ services:
       - 50053:50051
     environment:
       MICRO_SERVER_ADDRESS: ":50051"
+      DB_HOST: "database"
+      DB_USER: "admin"
+      DB_PASSWORD: "password"
+      DB_NAME: "postgres"
 
   cli:
     build: ./ship-cli-consignment
