@@ -25,7 +25,26 @@ func createUser(ctx context.Context, service micro.Service, user *ub.User) error
 
 func main() {
 	// create and initialise a new service
-	service := micro.NewService()
+	service := micro.NewService(
+		micro.Flags(
+			&cli.StringFlag{
+				Name:  "name",
+				Usage: "Your Name",
+			},
+			&cli.StringFlag{
+				Name:  "email",
+				Usage: "E-Mail",
+			},
+			&cli.StringFlag{
+				Name:  "company",
+				Usage: "Company Name",
+			},
+			&cli.StringFlag{
+				Name:  "password",
+				Usage: "Password",
+			},
+		),
+	)
 	service.Init(
 		micro.Action(func(c *cli.Context) error {
 			name := c.String("name")
