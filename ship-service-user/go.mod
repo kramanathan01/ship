@@ -12,4 +12,4 @@ require (
 	google.golang.org/protobuf v1.25.0
 )
 
-replace github.com/kramanathan01/ship/ship-service-user => ../ship-service-user
+// replace github.com/kramanathan01/ship/ship-service-user => ../ship-service-user
